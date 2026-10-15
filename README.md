@@ -10,6 +10,7 @@ REQUIREMENTS
 - Docker: timescale/timescaledb:latest-pg17 and emqx/emqx
 - Python 3.13
 - pip install psycopg2-binary paho-mqtt pandas scikit-learn matplotlib dash plotly
+- pip install playwright   (only for dash_render_timing.py; it uses the installed Chrome)
 BEFORE YOU RUN ANYTHING
 Every script contains YOUR_PASSWORD where the database password goes. Replace it
 with your own. The full dataset (about 1.2 GB) is not included; step 5 shows how
@@ -59,7 +60,11 @@ EXECUTION ORDER
     The freshness test is at the end of analysis_queries.sql.
 11. Dashboards (Section 7):
     python dash_app.py   (pages: localhost:8050/raw and localhost:8050/aggregate)
-    python dash_check.py (match check and timings, in a second window)
+    python dash_check.py (match check and query timings, in a second window)
+    python dash_render_timing.py (end-to-end refresh in Chrome: 1 warm-up and 10 runs
+    per page; pause jobs 1000-1004 first with
+    SELECT alter_job(j, scheduled => false) FROM generate_series(1000,1004) j;
+    and switch them on again afterwards with scheduled => true)
 12. Forecast (Section 8):
     python fc1.py
     python fc2.py
@@ -67,7 +72,10 @@ RESULT FILES
 benchmark_runs.csv, benchmark_summary.csv: chunk comparison timings
 benchmark_compressed_runs.csv, benchmark_compressed_summary.csv: compression timings
 compress_timings.csv: compression time per chunk
-dashboard_timings.csv: dashboard timings
+dashboard_timings.csv: dashboard query timings (dash_check.py)
+dashboard_render_runs.csv, dashboard_render_summary.csv: browser refresh timings (dash_render_timing.py)
+validation_comparison.csv: validation results of the three Ridge configurations
+ENVIRONMENT.txt: machine, versions and settings used
 anomaly_flags.csv: readings flagged by our anomaly rule
 test_predictions.csv: baseline and model forecasts, 22 to 28 September
 Environment details and all screenshots are in the PDF report.

@@ -1,0 +1,42 @@
+AUCA Assignment I - Smart Energy Grid Analytics
+Recorded environment details (Section 1.1). All times are CAT (UTC+2, Africa/Kigali).
+Group: TWAHIRWA Joshua (101396), UBANJE Albert (101402), MUTONI Denyse (101207)
+
+HARDWARE AND OPERATING SYSTEM (machine name: Josh)
+CPU                  12th Gen Intel(R) Core(TM) i7-1255U
+Cores                10 cores, 12 logical processors
+RAM                  7.7 GB installed
+Operating system     Microsoft Windows 11 Pro, version 10.0.26200
+Storage type         SSD (SAMSUNG MZALQ1T0HALB-000L2)
+Windows time zone    South Africa Standard Time (UTC+2 = CAT)
+Clock source         Windows Time service, time.windows.com (manual resync 16-Oct-2026 00:32: Leap Indicator 0, last successful sync 00:32:16; an earlier check at 23:20 on 15-Oct had reported not synchronized)
+
+SOFTWARE
+Python               3.13.14 (packages: psycopg2-binary, paho-mqtt, pandas, scikit-learn, matplotlib, dash, plotly)
+Browser timing       Google Chrome, driven by Playwright (package: playwright) in dash_render_timing.py only
+EMQX                 6.3.1 (node emqx@172.17.0.2), Docker container "emqx", MQTT host port 1884 -> 1883, dashboard 18083
+PostgreSQL           17.11 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+TimescaleDB          2.30.2
+Database             auca_energy (one database for all tables and views), session time zone Africa/Kigali
+
+HOW POSTGRESQL RUNS
+Inside a Docker container (name iot-stack-db-1, image timescale/timescaledb:latest-pg17, port 5432) on the
+Windows host. Docker reports 12 CPUs and MemTotal 3953799168 bytes (about 3.7 GiB) for its Linux VM.
+The container has no CPU or memory limit (HostConfig.Memory = 0, NanoCpus = 0).
+
+POSTGRESQL SETTINGS
+shared_buffers                    965288kB
+work_mem                          5027kB
+max_parallel_workers_per_gather   6
+jit                               off
+
+COMMANDS USED TO RECORD THESE VALUES
+python --version
+docker exec iot-stack-db-1 psql -U postgres -d auca_energy -c "SELECT version();"
+docker exec iot-stack-db-1 psql -U postgres -d auca_energy -c "SELECT extname, extversion FROM pg_extension;"
+docker exec emqx emqx ctl status
+docker info --format "Docker CPUs={{.NCPU}} MemTotalBytes={{.MemTotal}}"
+docker inspect iot-stack-db-1 --format "ContainerMemoryLimit={{.HostConfig.Memory}} ContainerNanoCpus={{.HostConfig.NanoCpus}}"
+tzutil /g
+w32tm /query /status
+SHOW shared_buffers;  SHOW work_mem;  SHOW max_parallel_workers_per_gather;  SHOW jit;  SHOW timezone;

@@ -1,0 +1,15 @@
+mode,measure,median_ms,min_ms,max_ms
+raw,p1_query_ms,540.0,387.5,1050.1
+raw,p2_query_ms,248.8,231.9,488.5
+raw,p3_query_ms,310.6,273.6,390.1
+raw,p4_query_ms,4.2,3.0,8.7
+raw,p5_query_ms,320.1,297.4,568.8
+raw,queries_sum_ms,1472.7,1198.8,2398.8
+raw,render_ms,3204.8,2593.6,4714.6
+agg,p1_query_ms,46.0,31.3,1089.5
+agg,p2_query_ms,6.8,4.4,14.4
+agg,p3_query_ms,9.8,5.4,15.7
+agg,p4_query_ms,3.0,1.9,5.1
+agg,p5_query_ms,10.5,7.2,23.9
+agg,queries_sum_ms,77.0,59.4,1110.3
+agg,render_ms,1758.0,1447.4,2572.1

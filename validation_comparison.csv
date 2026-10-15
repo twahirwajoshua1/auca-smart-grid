@@ -1,0 +1,4 @@
+configuration,model,settings,training_rows,validation_rows,validation_MAE_kWh,validation_RMSE_kWh,selected
+C1,Ridge regression,alpha=0.1,1680,1680,4.443,5.650,yes
+C2,Ridge regression,alpha=10,1680,1680,5.327,6.753,no
+C3,Ridge regression,alpha=100,1680,1680,9.919,13.363,no
